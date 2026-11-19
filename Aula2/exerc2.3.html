@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Porcentagem e Operações</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #ffffff;
+    }
+
+    /* Card principal cinza-claro ao fundo */
+    .calculadora-box {
+      background-color: #e2ede8;
+      padding: 40px 60px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    /* Inputs numéricos e resultado */
+    input[type="number"] {
+      width: 90px;
+      height: 50px;
+      font-size: 20px;
+      text-align: center;
+      border: 2px solid #b5c7be;
+      border-radius: 12px;
+      outline: none;
+      background-color: #e2ede8;
+      color: #333;
+      font-weight: bold;
+    }
+
+    /* Coluna vertical contendo os botões de operação */
+    .botoes-operacao {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .btn-op {
+      width: 45px;
+      height: 45px;
+      font-size: 20px;
+      font-weight: bold;
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: opacity 0.2s;
+    }
+
+    .btn-op:hover {
+      opacity: 0.8;
+    }
+
+    /* Cores exatas dos botões baseadas na imagem */
+    .cor-rosa { background-color: #d65261; }
+    .cor-cinza { background-color: #595f62; }
+    .cor-azul { background-color: #2b6bcb; }
+
+    /* Botão de Igual de cor azul */
+    .btn-igual {
+      width: 55px;
+      height: 50px;
+      font-size: 24px;
+      font-weight: bold;
+      color: white;
+      background-color: #2b6bcb;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+    }
+
+    .btn-igual:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="calculadora-box">
+    <!-- Primeiro Valor -->
+    <input type="number" id="num1" value="20">
+
+    <!-- Coluna de Operadores -->
+    <div class="botoes-operacao">
+      <button class="btn-op cor-rosa" data-op="%">%</button>
+      <button class="btn-op cor-rosa" data-op="+">+</button>
+      <button class="btn-op cor-rosa" data-op="-">-</button>
+      <button class="btn-op cor-rosa" data-op="*">X</button>
+      <button class="btn-op cor-rosa" data-op="/">/</button>
+      <button class="btn-op cor-cinza" data-op="sum">∑</button>
+      <button class="btn-op cor-cinza" data-op="pi">∏</button>
+      <button class="btn-op cor-azul" data-op="pow">^</button>
+      <button class="btn-op cor-azul" data-op="fact">!</button>
+    </div>
+
+    <!-- Segundo Valor -->
+    <input type="number" id="num2" value="50">
+
+    <!-- Botão Igual -->
+    <button class="btn-igual" id="calcular">=</button>
+
+    <!-- Resultado -->
+    <input type="number" id="resultado" value="10" readonly>
+  </div>
+
+  <script>
+    const inputNum1 = document.getElementById('num1');
+    const inputNum2 = document.getElementById('num2');
+    const inputResultado = document.getElementById('resultado');
+    const botaoCalcular = document.getElementById('calcular');
+    const botoesOp = document.querySelectorAll('.btn-op');
+
+    // Variável para guardar a operação atualmente selecionada (padrão é %)
+    let operacaoAtual = '%';
+
+    // Gerencia a seleção visual dos botões de operação
+    botoesOp.forEach(botao => {
+      botao.addEventListener('click', () => {
+        operacaoAtual = botao.getAttribute('data-op');
+        
+        // Remove efeito de destaque de todos e adiciona no clicado
+        botoesOp.forEach(b => b.style.outline = 'none');
+        botao.style.outline = '3px solid #000';
+      });
+    });
+
+    // Função que executa o cálculo matemático
+    function realizarCalculo() {
+      const n1 = parseFloat(inputNum1.value) || 0;
+      const n2 = parseFloat(inputNum2.value) || 0;
+      let conta = 0;
+
+      switch (operacaoAtual) {
+        case '%':
+          conta = (n1 / 100) * n2;
+          break;
+        case '+':
+          conta = n1 + n2;
+          break;
+        case '-':
+          conta = n1 - n2;
+          break;
+        case '*':
+          conta = n1 * n2;
+          break;
+        case '/':
+          conta = n2 !== 0 ? n1 / n2 : 0;
+          break;
+        case 'pow':
+          conta = Math.pow(n1, n2);
+          break;
+        default:
+          conta = 0; // Para operações complexas não implementadas (∑, ∏, !)
+      }
+
+      inputResultado.value = conta;
+    }
+
+    // Executa ao clicar no botão de igual
+    botaoCalcular.addEventListener('click', realizarCalculo);
+
+    // Inicializa o cálculo na primeira execução
+    realizarCalculo();
+  </script>
+
+</body>
+</html>

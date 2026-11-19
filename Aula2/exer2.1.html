@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Calculadora de Porcentagem e Operações</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      min-height: 100vh;
+      margin: 0;
+      background-color: #ffffff;
+    }
+
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    input[type="number"] {
+      width: 80px;
+      padding: 10px;
+      font-size: 18px;
+      text-align: center;
+      border: 2px solid #000000;
+      border-radius: 8px;
+      outline: none;
+    }
+
+    input[type="number"]:focus {
+      border-color: #007bff;
+    }
+
+    .simbolo {
+      font-size: 32px;
+      font-weight: bold;
+      color: #000000;
+    }
+
+    .btn-igual {
+      font-size: 28px;
+      font-weight: bold;
+      color: white;
+      background-color: #000000;
+      border: none;
+      border-radius: 8px;
+      padding: 6px 16px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    .btn-igual:hover {
+      background-color: #000000;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" data-operacao="%">
+    <input type="number" class="num1" value="20">
+    <span class="simbolo">%</span>
+    <input type="number" class="num2" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" class="resultado" readonly>
+  </div>
+
+  <div class="container" data-operacao="*">
+    <input type="number" class="num1" value="20">
+    <span class="simbolo">*</span>
+    <input type="number" class="num2" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" class="resultado" readonly>
+  </div>
+
+  <div class="container" data-operacao="-">
+    <input type="number" class="num1" value="20">
+    <span class="simbolo">-</span>
+    <input type="number" class="num2" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" class="resultado" readonly>
+  </div>
+
+  <div class="container" data-operacao="+">
+    <input type="number" class="num1" value="20">
+    <span class="simbolo">+</span>
+    <input type="number" class="num2" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" class="resultado" readonly>
+  </div>
+
+  <div class="container" data-operacao="/">
+    <input type="number" class="num1" value="20">
+    <span class="simbolo">/</span>
+    <input type="number" class="num2" value="50">
+    <button class="btn-igual">=</button>
+    <input type="number" class="resultado" readonly>
+  </div>
+
+  <script>
+    const containers = document.querySelectorAll('.container');
+
+    containers.forEach(container => {
+      const inputNum1 = container.querySelector('.num1');
+      const inputNum2 = container.querySelector('.num2');
+      const inputResultado = container.querySelector('.resultado');
+      const botaoCalcular = container.querySelector('.btn-igual');
+      
+      const operacao = container.getAttribute('data-operacao');
+
+      function realizarCalculo() {
+        const n1 = parseFloat(inputNum1.value) || 0;
+        const n2 = parseFloat(inputNum2.value) || 0;
+        let conta = 0;
+
+        switch (operacao) {
+          case '%':
+            conta = (n1 / 100) * n2;
+            break;
+          case '*':
+            conta = n1 * n2;
+            break;
+          case '-':
+            conta = n1 - n2;
+            break;
+          case '+':
+            conta = n1 + n2;
+            break;
+          case '/':
+            conta = n2 !== 0 ? n1 / n2 : 'Erro'; // Evita divisão por zero
+            break;
+        }
+
+        inputResultado.value = conta;
+      }
+
+      botaoCalcular.addEventListener('click', realizarCalculo);
+
+      realizarCalculo();
+    });
+  </script>
+
+</body>
+</html>
